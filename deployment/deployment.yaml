@@ -15,3 +15,10 @@ spec:
       containers:
         - name: http-server
           image: 412133775/http-server:v1.7
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/healthy
+            initialDelaySeconds: 30
+            periodSeconds: 5
