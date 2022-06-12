@@ -15,9 +15,6 @@ spec:
       containers:
         - name: http-server
           image: 412133775/http-server:v1.8
-          ports:
-            - containerPort: 8080
-              app: http-server
           readinessProbe:
             httpGet:
               path: /healthz
