@@ -12,6 +12,7 @@ spec:
       labels:
         app: http-server
     spec:
+      terminationGracePeriodSeconds: 60
       containers:
         - name: http-server
           image: 412133775/http-server:v1.8
@@ -34,3 +35,16 @@ spec:
               port: 8080
             initialDelaySeconds: 20
             periodSeconds: 5
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 1
+            requests:
+              memory: 256Mi
+              cpu: 100m
+          env:
+            - name: "VERSION"
+              valueFrom:
+                configMapKeyRef:
+                  key: VERSION
+                  name: http-server-config
