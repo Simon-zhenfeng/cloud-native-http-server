@@ -20,7 +20,7 @@ func main() {
 	glog.V(2).Info("Starting up http server.")
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/healthz", healthzHandler)
-	err := http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		glog.V(2).Info("http server starting failed: ", err)
 	}

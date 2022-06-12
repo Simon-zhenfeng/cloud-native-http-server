@@ -14,11 +14,14 @@ spec:
     spec:
       containers:
         - name: http-server
-          image: 412133775/http-server:v1.7
+          image: 412133775/http-server:v1.8
+          ports:
+            - containerPort: 8080
+              app: http-server
           readinessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
+            httpGet:
+              path: /healthz
+              port: 8080
             initialDelaySeconds: 30
             periodSeconds: 5
+            successThreshold: 2
