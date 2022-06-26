@@ -1,4 +1,4 @@
-export tag=v1.8
+export tag=v1.9
 
 release:
 	echo "building http-server container"

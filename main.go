@@ -2,11 +2,16 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/golang/glog"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"http-server/metrics"
 	"io"
+	"math/rand"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 /**
@@ -16,14 +21,26 @@ import (
 const EnvVersion = "VERSION"
 
 func main() {
+	metrics.Register()
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting up http server.")
 	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/images", imageHandler)
 	http.HandleFunc("/healthz", healthzHandler)
+	http.Handle("/metrics", promhttp.Handler())
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		glog.V(2).Info("http server starting failed: ", err)
 	}
+}
+
+func imageHandler(writer http.ResponseWriter, request *http.Request) {
+	timer := metrics.NewTimer()
+	defer timer.ObserveTotal()
+	randInt := rand.Intn(2000)
+	time.Sleep(time.Millisecond * time.Duration(randInt))
+	writer.WriteHeader(http.StatusOK)
+	io.WriteString(writer, fmt.Sprintf("<h1>%d</h1>", randInt))
 }
 
 func healthzHandler(writer http.ResponseWriter, request *http.Request) {
