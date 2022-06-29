@@ -29,3 +29,8 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.8.0
   # --set installCRDs=true
 ```
+
+### 安装prometheus additional secret
+```shell
+kubectl create secret generic additional-configs --from-file=prometheus-additional.yaml -n prometheus-stack 
+```
